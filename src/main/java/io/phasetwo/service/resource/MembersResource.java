@@ -44,7 +44,7 @@ public class MembersResource extends OrganizationAdminResource {
   @DELETE
   @Path("{userId}")
   public Response removeMember(@PathParam("userId") String userId) {
-    canDelete(userId);
+    canRemove(userId);
 
     log.debugf("Remove member %s from %s %s", userId, realm.getName(), organization.getId());
     UserModel member = session.users().getUserById(realm, userId);
@@ -113,8 +113,8 @@ public class MembersResource extends OrganizationAdminResource {
     }
   }
 
-  private void canDelete(String userId) {
-    if (userId != getUser().getId()) {
+  private void canRemove(String userId) {
+    if (userId != auth.getUser().getId()) {
       canManage();
     }
   }
